@@ -1,6 +1,6 @@
 /** ---------------------------------------- LICENSE SECTION -------------------------------------------------------------------
  *
- * Copyright (c) 2024 Piotr Wojtowicz
+ * Copyright (c) 2025 Piotr Wojtowicz
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
