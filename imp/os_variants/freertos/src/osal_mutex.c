@@ -38,6 +38,7 @@ OSAL_Bool_DT OSAL_Mutex_Init(OSAL_Mutex_XT *mutex)
 
    OSAL_ENTER_FUNC(OSAL_DBG_MUTEX);
 
+#if( configUSE_MUTEXES == 1 )
    if(OSAL_BASIC_PARAMS_CHECK(OSAL_CHECK_PTR(OSAL_Mutex_XT, mutex)))
    {
       xSemaphore = xSemaphoreCreateMutex();
@@ -53,6 +54,9 @@ OSAL_Bool_DT OSAL_Mutex_Init(OSAL_Mutex_XT *mutex)
    {
       OSAL_ERROR_2(OSAL_DBG_MUTEX, "invalid params! %s: %p", "mutex", mutex);
    }
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES to 1!"
+#endif
 
    OSAL_EXIT_FUNC(OSAL_DBG_MUTEX);
 
@@ -66,6 +70,7 @@ OSAL_Bool_DT OSAL_Mutex_Init_Recursive(OSAL_Mutex_XT *mutex)
 
    OSAL_ENTER_FUNC(OSAL_DBG_MUTEX);
 
+#if(( configUSE_MUTEXES == 1 ) && ( configUSE_RECURSIVE_MUTEXES == 1 ))
    if(OSAL_BASIC_PARAMS_CHECK(OSAL_CHECK_PTR(OSAL_Mutex_XT, mutex)))
    {
       xSemaphore = xSemaphoreCreateRecursiveMutex();
@@ -81,6 +86,9 @@ OSAL_Bool_DT OSAL_Mutex_Init_Recursive(OSAL_Mutex_XT *mutex)
    {
       OSAL_ERROR_2(OSAL_DBG_MUTEX, "invalid params! %s: %p", "mutex", mutex);
    }
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES and configUSE_RECURSIVE_MUTEXES to 1!"
+#endif
 
    OSAL_EXIT_FUNC(OSAL_DBG_MUTEX);
 
@@ -124,11 +132,19 @@ OSAL_Bool_DT OSAL_Mutex_Wait_And_Take_Timeout(OSAL_Mutex_XT *mutex, OSAL_Time_DT
    {
       if(OSAL_BOOL_IS_TRUE(mutex->is_recursive))
       {
+#if(( configUSE_MUTEXES == 1 ) && ( configUSE_RECURSIVE_MUTEXES == 1 ))
          retval = xSemaphoreTakeRecursive(mutex->mutex, timeout_ms * configTICK_RATE_HZ / 1000);
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES and configUSE_RECURSIVE_MUTEXES to 1!"
+#endif
       }
       else
       {
+#if( configUSE_MUTEXES == 1 )
          retval = xSemaphoreTake(mutex->mutex, timeout_ms * configTICK_RATE_HZ / 1000);
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES to 1!"
+#endif
       }
 
       if(pdPASS == retval)
@@ -154,11 +170,19 @@ void OSAL_Mutex_Release(OSAL_Mutex_XT *mutex)
    {
       if(OSAL_BOOL_IS_TRUE(mutex->is_recursive))
       {
+#if(( configUSE_MUTEXES == 1 ) && ( configUSE_RECURSIVE_MUTEXES == 1 ))
          xSemaphoreGiveRecursive(mutex->mutex);
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES and configUSE_RECURSIVE_MUTEXES to 1!"
+#endif
       }
       else
       {
+#if( configUSE_MUTEXES == 1 )
          xSemaphoreGive(mutex->mutex);
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_MUTEXES to 1!"
+#endif
       }
    }
    else

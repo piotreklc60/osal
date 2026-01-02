@@ -65,6 +65,7 @@ OSAL_Bool_DT OSAL_Semaphore_Init_Counting(OSAL_Semaphore_XT *semaphore, uint32_t
 
    OSAL_ENTER_FUNC(OSAL_DBG_SEMAPHORE);
 
+#if( configUSE_COUNTING_SEMAPHORES == 1 )
    if(OSAL_BASIC_PARAMS_CHECK(OSAL_CHECK_PTR(OSAL_Semaphore_XT, semaphore)))
    {
       xSemaphore = xSemaphoreCreateCounting(max_value, initial_value);
@@ -79,6 +80,9 @@ OSAL_Bool_DT OSAL_Semaphore_Init_Counting(OSAL_Semaphore_XT *semaphore, uint32_t
    {
       OSAL_ERROR_2(OSAL_DBG_SEMAPHORE, "invalid params! %s: %p", "semaphore", semaphore);
    }
+#else
+#warning "to use counting semaphore please enable it in FreeRTOSConfig.h by defining configUSE_COUNTING_SEMAPHORES to 1!"
+#endif
 
    OSAL_EXIT_FUNC(OSAL_DBG_SEMAPHORE);
 
