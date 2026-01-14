@@ -164,6 +164,42 @@ void *OSAL_List_Find_By_Vendor(void *first_leaf, OSAL_List_Vendor_Compare_HT com
    return leaf;
 } /* OSAL_List_Find_By_Vendor */
 
+static OSAL_Bool_DT OSAL_List_add_at_the_end(OSAL_List_XT *leaf, OSAL_List_add_by_number_params_DT *params)
+{
+   return (!OSAL_CHECK_PTR(OSAL_List_XT, leaf->next));
+} /* OSAL_List_add_by_number_growing */
+
+void OSAL_List_Add_At_The_End(void *first_leaf_ptr, void *new_leaf)
+{
+   OSAL_ENTER_FUNC(OSAL_DBG_LISTS);
+
+   OSAL_List_Add_By_Vendor(
+      first_leaf_ptr,
+      new_leaf,
+      (OSAL_List_Vendor_Compare_HT)OSAL_List_add_at_the_end,
+      OSAL_MAKE_INVALID_PTR(void));
+
+   OSAL_EXIT_FUNC(OSAL_DBG_LISTS);
+} /* OSAL_List_Add_At_The_End */
+
+static OSAL_Bool_DT OSAL_List_add_at_the_beginning(OSAL_List_XT *leaf, OSAL_List_add_by_number_params_DT *params)
+{
+   return OSAL_TRUE;
+} /* OSAL_List_add_at_the_beginning */
+
+void OSAL_List_Add_At_The_Beginning(void *first_leaf_ptr, void *new_leaf)
+{
+   OSAL_ENTER_FUNC(OSAL_DBG_LISTS);
+
+   OSAL_List_Add_By_Vendor(
+      first_leaf_ptr,
+      new_leaf,
+      (OSAL_List_Vendor_Compare_HT)OSAL_List_add_at_the_beginning,
+      OSAL_MAKE_INVALID_PTR(void));
+
+   OSAL_EXIT_FUNC(OSAL_DBG_LISTS);
+} /* OSAL_List_Add_At_The_Beginning */
+
 static OSAL_Bool_DT OSAL_List_add_by_number_growing(OSAL_List_XT *leaf, OSAL_List_add_by_number_params_DT *params)
 {
    uint32_t id = ((uint32_t*)(&((uint8_t*)leaf)[params->id_offset]))[0] & params->id_mask;

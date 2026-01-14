@@ -126,6 +126,22 @@ void *OSAL_List_Find_By_String_Terminated(void *first_leaf, uint32_t id_offset, 
 void *OSAL_List_Find_By_Vendor(void *first_leaf, OSAL_List_Vendor_Compare_HT compare, void *params);
 
 /**
+ * @brief Adds new leaf at the end of the list, without any sorting.
+ *
+ * @param first_leaf_ptr pointer to the variable holding pointer to first leaf of the list (starting element of the list).
+ * @param new_leaf pointer to new leaf to be added to the list.
+ */
+void OSAL_List_Add_At_The_End(void *first_leaf_ptr, void *new_leaf);
+
+/**
+ * @brief Adds new leaf at the beginning of the list, without any sorting.
+ *
+ * @param first_leaf_ptr pointer to the variable holding pointer to first leaf of the list (starting element of the list).
+ * @param new_leaf pointer to new leaf to be added to the list.
+ */
+void OSAL_List_Add_At_The_Beginning(void *first_leaf_ptr, void *new_leaf);
+
+/**
  * @brief Add new list leaf by its number. Order is specified by @see order_growing parameter.
  *
  * @param first_leaf_ptr pointer to the variable holding pointer to first leaf of the list (starting element of the list).

@@ -185,6 +185,7 @@ typedef struct
 #define OSAL_CONTEXT_ID_BY_NUMBER(_id)    &(OSAL_Context_Id_XT){.id=_id}
 #endif
 #endif
+#define OSAL_CONTEXT_ID_INVALID           OSAL_MAKE_INVALID_PTR(OSAL_Context_Id_XT)
 
 #ifndef OSAL_CONTEXT_TRACKING_PARAMS_XT_EXTERNAL
 typedef struct OSAL_Context_Tracking_Params_eXtendedTag
